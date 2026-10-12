@@ -1,28 +1,19 @@
-/* =========================================================
-   Kal El's Solar System Simulation
-   Clean space theme – 2026
-   ========================================================= */
-
 :root {
   --bg: #050711;
-  --card: rgba(12, 16, 32, 0.85);
+  --card: rgba(10, 14, 28, 0.88);
   --accent: #7eb6ff;
-  --accent-dim: rgba(126, 182, 255, 0.25);
   --text: #e8f0ff;
-  --text-dim: rgba(200, 215, 255, 0.55);
-  --danger: #ff6b6b;
-  --success: #6bffb8;
+  --text-dim: rgba(190, 210, 255, 0.55);
   --radius: 14px;
-  --font: "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
@@ -30,27 +21,22 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: var(--bg);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   color: var(--text);
-  font-family: var(--font);
 }
 
 #app {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
-/* =========================================================
-   CANVAS
-   ========================================================= */
-
+/* ===== CANVAS ===== */
 #canvas-container {
   position: absolute;
   inset: 0;
   z-index: 1;
 }
-
 #canvas-container canvas {
   display: block;
   width: 100%;
@@ -58,14 +44,57 @@ html, body {
   touch-action: none;
 }
 
-/* =========================================================
-   LOADING SCREEN
-   ========================================================= */
-
-#loading-screen {
+/* ===== START SCREEN ===== */
+#start-screen {
   position: absolute;
   inset: 0;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 7, 17, 0.94);
+}
+
+.start-card {
+  text-align: center;
+  padding: 42px 36px;
+  background: var(--card);
+  border: 1px solid rgba(126, 182, 255, 0.18);
+  border-radius: 20px;
+  backdrop-filter: blur(18px);
+  max-width: 90vw;
+}
+
+.start-card h1 {
+  font-size: clamp(1.35rem, 5vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.35;
+  margin-bottom: 32px;
+}
+
+#start-button {
+  min-width: 168px;
+  height: 50px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #5b8cff, #7c6bff);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+#start-button:active {
+  transform: scale(0.96);
+}
+
+/* ===== LOADING SCREEN ===== */
+#loading-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 90;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,21 +103,19 @@ html, body {
 
 .loading-content {
   text-align: center;
-  width: min(320px, 80vw);
+  width: min(300px, 80vw);
 }
 
-.loading-content h1 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  margin-bottom: 28px;
-  color: var(--text);
+.loading-content h2 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  margin-bottom: 24px;
 }
 
 .progress-bar {
-  width: 100%;
   height: 4px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.08);
   border-radius: 99px;
   overflow: hidden;
   margin-bottom: 12px;
@@ -99,93 +126,32 @@ html, body {
   width: 0%;
   background: linear-gradient(90deg, #5b8cff, #a78bfa);
   border-radius: 99px;
-  transition: width 0.25s ease;
+  transition: width 0.2s ease;
 }
 
 #loading-text {
   font-size: 0.75rem;
   color: var(--text-dim);
-  letter-spacing: 0.06em;
 }
 
-/* =========================================================
-   START SCREEN
-   ========================================================= */
-
-#start-screen {
-  position: absolute;
-  inset: 0;
-  z-index: 90;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(5, 7, 17, 0.92);
-}
-
-.start-card {
-  text-align: center;
-  padding: 40px 32px;
-  background: var(--card);
-  border: 1px solid rgba(126, 182, 255, 0.18);
-  border-radius: 20px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  max-width: 90vw;
-}
-
-.start-card h1 {
-  font-size: clamp(1.3rem, 5vw, 1.8rem);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  line-height: 1.35;
-  margin-bottom: 32px;
-}
-
-#start-button {
-  min-width: 160px;
-  height: 48px;
-  padding: 0 28px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #5b8cff, #7c6bff);
-  color: white;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: transform 0.15s ease, filter 0.15s ease;
-}
-
-#start-button:hover {
-  filter: brightness(1.12);
-}
-
-#start-button:active {
-  transform: scale(0.96);
-}
-
-/* =========================================================
-   TOP MODE BAR
-   ========================================================= */
-
+/* ===== TOP BAR ===== */
 #top-bar {
   position: absolute;
   top: max(14px, env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
-  z-index: 20;
+  z-index: 30;
   display: flex;
-  gap: 6px;
+  gap: 5px;
   padding: 5px;
-  background: rgba(8, 12, 24, 0.65);
+  background: rgba(8, 12, 24, 0.7);
   border: 1px solid rgba(126, 182, 255, 0.15);
   border-radius: 99px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
 }
 
 .mode-btn {
-  min-width: 72px;
+  min-width: 74px;
   height: 34px;
   padding: 0 14px;
   border: none;
@@ -194,111 +160,90 @@ html, body {
   color: var(--text-dim);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   cursor: pointer;
-  transition: all 0.18s ease;
-}
-
-.mode-btn:hover {
-  color: var(--text);
+  transition: 0.18s ease;
 }
 
 .mode-btn.active {
-  background: rgba(126, 182, 255, 0.22);
+  background: rgba(126, 182, 255, 0.25);
   color: #fff;
 }
 
-/* =========================================================
-   SUB PANEL (for Fly / Modes / Setting options)
-   ========================================================= */
-
+/* ===== SUB PANEL ===== */
 #sub-panel {
   position: absolute;
   top: max(58px, calc(env(safe-area-inset-top) + 48px));
   left: 50%;
   transform: translateX(-50%);
-  z-index: 19;
+  z-index: 29;
   display: flex;
   gap: 8px;
   padding: 8px 12px;
-  background: rgba(8, 12, 24, 0.75);
+  background: rgba(8, 12, 24, 0.78);
   border: 1px solid rgba(126, 182, 255, 0.12);
   border-radius: 14px;
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 
 .sub-btn {
   height: 32px;
   padding: 0 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 99px;
   background: transparent;
   color: var(--text-dim);
   font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
   cursor: pointer;
-  transition: all 0.15s ease;
 }
 
-.sub-btn:hover,
 .sub-btn.active {
-  background: rgba(126, 182, 255, 0.18);
+  background: rgba(126, 182, 255, 0.2);
   color: #fff;
   border-color: transparent;
 }
 
-/* =========================================================
-   JOYSTICK + VERTICAL CONTROLS
-   ========================================================= */
-
+/* ===== JOYSTICK + VERTICAL ===== */
 #movement-ui {
   position: absolute;
-  bottom: max(20px, env(safe-area-inset-bottom));
+  bottom: max(18px, env(safe-area-inset-bottom));
   left: 0;
   right: 0;
-  z-index: 15;
+  z-index: 25;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 20px;
+  padding: 0 18px;
   pointer-events: none;
 }
 
 #joystick-zone {
-  width: 130px;
-  height: 130px;
+  width: 128px;
+  height: 128px;
   pointer-events: auto;
 }
 
 #joystick-base {
-  position: relative;
-  width: 110px;
-  height: 110px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
-  background: rgba(15, 22, 40, 0.45);
-  border: 1px solid rgba(126, 182, 255, 0.2);
+  background: rgba(12, 18, 36, 0.5);
+  border: 1px solid rgba(126, 182, 255, 0.22);
+  position: relative;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 #joystick-thumb {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 48px;
-  height: 48px;
-  margin: -24px 0 0 -24px;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
   border-radius: 50%;
-  background: rgba(126, 182, 255, 0.35);
-  border: 2px solid rgba(180, 210, 255, 0.5);
-  pointer-events: none;
-  transition: background 0.1s ease;
-}
-
-#joystick-thumb.active {
-  background: rgba(126, 182, 255, 0.6);
+  background: rgba(126, 182, 255, 0.38);
+  border: 2px solid rgba(180, 210, 255, 0.55);
 }
 
 #vertical-controls {
@@ -309,181 +254,47 @@ html, body {
 }
 
 .vert-btn {
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   border: 1px solid rgba(126, 182, 255, 0.22);
-  border-radius: 14px;
-  background: rgba(12, 18, 35, 0.5);
+  border-radius: 13px;
+  background: rgba(12, 18, 36, 0.5);
   color: var(--text);
-  font-size: 1.2rem;
-  cursor: pointer;
+  font-size: 1.15rem;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all 0.12s ease;
 }
 
-.vert-btn:active,
-.vert-btn.pressed {
-  background: rgba(126, 182, 255, 0.3);
+.vert-btn:active {
+  background: rgba(126, 182, 255, 0.28);
   transform: scale(0.94);
 }
 
-/* =========================================================
-   ENERGY BAR (Superman only)
-   ========================================================= */
-
-#energy-bar {
+/* ===== ENERGY ===== */
+#energy-hud {
   position: absolute;
-  top: max(70px, calc(env(safe-area-inset-top) + 58px));
-  left: max(16px, env(safe-area-inset-left));
-  z-index: 18;
+  top: max(68px, calc(env(safe-area-inset-top) + 56px));
+  left: max(14px, env(safe-area-inset-left));
+  z-index: 28;
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 160px;
+  width: 150px;
 }
 
-#energy-fill {
+#energy-bar {
   flex: 1;
   height: 4px;
+  background: rgba(255,255,255,0.1);
   border-radius: 99px;
-  background: var(--success);
-  transition: width 0.15s linear, background 0.2s ease;
-}
-
-#energy-text {
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--text-dim);
-  min-width: 32px;
-  text-align: right;
-}
-
-/* =========================================================
-   FLOATING LABELS (clean transparent style)
-   ========================================================= */
-
-#label-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
   overflow: hidden;
 }
 
-.planet-label {
-  position: absolute;
-  transform: translate(-50%, -120%);
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  color: #fff;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
-  white-space: nowrap;
-  pointer-events: auto;
-  cursor: pointer;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
+#energy-fill {
+  height: 100%;
+  width: 100%;
+  background: #6bffb8;
+  border-radius: 99px;
+  transition: width 0.15s linear;
 }
 
-.planet-label .distance {
-  display: block;
-  font-size: 9px;
-  font-weight: 500;
-  color: rgba(200, 220, 255, 0.7);
-  margin-top: 1px;
-}
-
-.planet-label:hover {
-  opacity: 1;
-}
-
-/* =========================================================
-   NERD INFO CARD (appears near planets)
-   ========================================================= */
-
-.nerd-card {
-  position: absolute;
-  max-width: 260px;
-  padding: 12px 14px;
-  background: rgba(8, 12, 24, 0.82);
-  border: 1px solid rgba(126, 182, 255, 0.18);
-  border-radius: 12px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  font-size: 0.72rem;
-  line-height: 1.45;
-  color: var(--text);
-  pointer-events: none;
-  z-index: 12;
-}
-
-.nerd-card h3 {
-  font-size: 0.85rem;
-  margin-bottom: 6px;
-  color: var(--accent);
-}
-
-/* =========================================================
-   MOON CALENDAR INFO
-   ========================================================= */
-
-#moon-info {
-  position: absolute;
-  top: max(70px, calc(env(safe-area-inset-top) + 58px));
-  right: max(16px, env(safe-area-inset-right));
-  z-index: 18;
-  padding: 10px 14px;
-  background: rgba(8, 12, 24, 0.75);
-  border: 1px solid rgba(126, 182, 255, 0.15);
-  border-radius: 12px;
-  backdrop-filter: blur(12px);
-  font-size: 0.7rem;
-  line-height: 1.5;
-  color: var(--text);
-  text-align: right;
-}
-
-#moon-info .phase {
-  font-weight: 700;
-  color: var(--accent);
-}
-
-/* =========================================================
-   UTILITY
-   ========================================================= */
-
-[hidden] {
-  display: none !important;
-}
-
-/* Mobile tweaks */
-@media (max-width: 500px) {
-  .mode-btn {
-    min-width: 62px;
-    font-size: 0.65rem;
-    padding: 0 10px;
-  }
-
-  #joystick-zone {
-    width: 115px;
-    height: 115px;
-  }
-
-  #joystick-base {
-    width: 96px;
-    height: 96px;
-  }
-
-  #joystick-thumb {
-    width: 42px;
-    height: 42px;
-    margin: -21px 0 0 -21px;
-  }
-
-  .vert-btn {
-    width: 46px;
-    height: 46px;
-  }
-}
+#energy-text {
