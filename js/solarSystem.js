@@ -5,46 +5,48 @@ export function createMiniSolarSystem(scene) {
   const planets = [];
 
   // ---------- SUN ----------
-  const sunRadius = 40; // much smaller for mini version (game-friendly size)
-  const sunGeo = new THREE.SphereGeometry(sunRadius, 32, 32);
-  const sunMat = new THREE.MeshBasicMaterial({ color: 0xffa928 });
-  const sun = new THREE.Mesh(sunGeo, sunMat);
+  const sunRadius = 35;
+  const sun = new THREE.Mesh(
+    new THREE.SphereGeometry(sunRadius, 32, 32),
+    new THREE.MeshBasicMaterial({ color: 0xffa928 })
+  );
   scene.add(sun);
 
-  // Soft glow
+  // Glow
   const glow = new THREE.Mesh(
-    new THREE.SphereGeometry(sunRadius * 1.3, 32, 32),
+    new THREE.SphereGeometry(sunRadius * 1.35, 32, 32),
     new THREE.MeshBasicMaterial({
       color: 0xff9a27,
       transparent: true,
-      opacity: 0.18,
+      opacity: 0.2,
       side: THREE.BackSide
     })
   );
   scene.add(glow);
 
-  // Light from the Sun
-  const light = new THREE.PointLight(0xffd69a, 3, 0, 2);
+  // Stronger light
+  const light = new THREE.PointLight(0xffe0a0, 4, 0, 2);
   sun.add(light);
 
-  // ---------- SIMPLE PLANETS ----------
+  // ---------- PLANETS (bigger + brighter) ----------
   const planetData = [
-    { name: "Mercury", color: 0xb5b5b5, distance: 120, size: 3.5 },
-    { name: "Venus",   color: 0xe6c07b, distance: 170, size: 5.5 },
-    { name: "Earth",   color: 0x4a9eff, distance: 230, size: 6.0 },
-    { name: "Mars",    color: 0xc1440e, distance: 300, size: 4.2 }
+    { name: "Mercury", color: 0xcccccc, distance: 110, size: 5 },
+    { name: "Venus",   color: 0xf0d080, distance: 160, size: 8 },
+    { name: "Earth",   color: 0x4a9eff, distance: 220, size: 9 },
+    { name: "Mars",    color: 0xe06030, distance: 290, size: 6.5 }
   ];
 
-  planetData.forEach((data, index) => {
-    const geo = new THREE.SphereGeometry(data.size, 24, 24);
-    const mat = new THREE.MeshStandardMaterial({
-      color: data.color,
-      roughness: 0.8
-    });
-    const mesh = new THREE.Mesh(geo, mat);
+  planetData.forEach((data, i) => {
+    const mesh = new THREE.Mesh(
+      new THREE.SphereGeometry(data.size, 24, 24),
+      new THREE.MeshStandardMaterial({
+        color: data.color,
+        roughness: 0.7,
+        metalness: 0.1
+      })
+    );
 
-    // Start position on the orbit
-    const angle = (index / planetData.length) * Math.PI * 2;
+    const angle = (i / planetData.length) * Math.PI * 2;
     mesh.position.x = Math.cos(angle) * data.distance;
     mesh.position.z = Math.sin(angle) * data.distance;
 
@@ -53,7 +55,7 @@ export function createMiniSolarSystem(scene) {
     planets.push({
       mesh,
       distance: data.distance,
-      speed: 0.003 / (index + 1), // slower for outer planets
+      speed: 0.004 / (i + 1),
       angle
     });
   });
