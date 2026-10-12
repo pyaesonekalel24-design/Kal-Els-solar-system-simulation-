@@ -13,35 +13,43 @@ function setupModeButtons() {
     btn.addEventListener("click", () => {
       buttons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      console.log("Mode:", btn.dataset.mode);
-      // Real mode logic will be added later
     });
   });
 }
 
 async function startGame() {
-  // Show loading
- document.getElementById("start-screen").style.display = "none";
-document.getElementById("loading-screen").style.display = "flex";
+  console.log("START clicked");
 
-  // Fake progress for now (will become real loading later)
-  for (let i = 0; i <= 100; i += 4) {
+  // Force hide start screen
+  const startScreen = document.getElementById("start-screen");
+  startScreen.style.display = "none";
+  startScreen.hidden = true;
+
+  // Force show loading
+  const loadingScreen = document.getElementById("loading-screen");
+  loadingScreen.style.display = "flex";
+  loadingScreen.hidden = false;
+
+  // Loading progress
+  for (let i = 0; i <= 100; i += 5) {
     updateLoading(i);
-    await new Promise(r => setTimeout(r, 22));
+    await new Promise(r => setTimeout(r, 30));
   }
 
-  // Hide loading, show UI
- document.getElementById("loading-screen").style.display = "none";
-document.getElementById("top-bar").style.display = "flex";
-  
-  // Create 3D world
+  // Hide loading
+  loadingScreen.style.display = "none";
+  loadingScreen.hidden = true;
+
+  // Show top bar
+  const topBar = document.getElementById("top-bar");
+  topBar.style.display = "flex";
+  topBar.hidden = false;
+
+  // Create 3D scene
   const container = document.getElementById("canvas-container");
   const { scene, camera, renderer } = createScene(container);
-
-  // Set far high spawn
   setInitialSpawn();
 
-  // Basic animation loop
   function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
@@ -49,11 +57,17 @@ document.getElementById("top-bar").style.display = "flex";
   animate();
 
   setupModeButtons();
-  console.log("Kal El's Solar System - core started");
+  console.log("Game fully started");
 }
 
 function init() {
-  document.getElementById("start-button").addEventListener("click", startGame);
+  const btn = document.getElementById("start-button");
+  if (btn) {
+    btn.addEventListener("click", startGame);
+    console.log("Start button ready");
+  } else {
+    console.error("Start button not found!");
+  }
 }
 
 init();
