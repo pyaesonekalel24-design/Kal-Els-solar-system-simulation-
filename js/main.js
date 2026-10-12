@@ -21,8 +21,8 @@ function setupModeButtons() {
 
 async function startGame() {
   // Show loading
-  document.getElementById("start-screen").hidden = true;
-  document.getElementById("loading-screen").hidden = false;
+ document.getElementById("start-screen").style.display = "none";
+document.getElementById("loading-screen").style.display = "flex";
 
   // Fake progress for now (will become real loading later)
   for (let i = 0; i <= 100; i += 4) {
@@ -31,9 +31,9 @@ async function startGame() {
   }
 
   // Hide loading, show UI
-  document.getElementById("loading-screen").hidden = true;
-  document.getElementById("top-bar").hidden = false;
-
+ document.getElementById("loading-screen").style.display = "none";
+document.getElementById("top-bar").style.display = "flex";
+  
   // Create 3D world
   const container = document.getElementById("canvas-container");
   const { scene, camera, renderer } = createScene(container);
