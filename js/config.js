@@ -1,8 +1,8 @@
-// All important numbers live here so they are easy to change later
+// All important numbers live here
 
 export const CONFIG = {
   // Scale
-  AU: 149597870.7,          // km
+  AU: 149597870.7,
   GAME_UNITS_PER_KM: 0.001,
   SOLAR_SYSTEM_SCALE: 3,
 
@@ -19,7 +19,7 @@ export const CONFIG = {
   ENERGY_DRAIN: 10,
   ENERGY_RECHARGE: 18,
 
-  // Spawn
-  SPAWN_DISTANCE: 4500,     // how far from the Sun
-  SPAWN_HEIGHT_ANGLE: 58,   // degrees above the plane
+  // Spawn (far + high view)
+  SPAWN_DISTANCE: 5200,        // how far from the Sun
+  SPAWN_HEIGHT_ANGLE: 58,      // degrees above the plane
 };
