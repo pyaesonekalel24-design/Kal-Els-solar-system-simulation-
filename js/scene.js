@@ -1,14 +1,14 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 import { CONFIG } from "./config.js";
+import { createSolarSystem } from "./solarSystem.js";
 
 let scene, camera, renderer;
+let bodies = [];
 
 export function createScene(container) {
-  // Scene
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x050711);
 
-  // Camera
   camera = new THREE.PerspectiveCamera(
     CONFIG.FOV,
     window.innerWidth / window.innerHeight,
@@ -17,14 +17,11 @@ export function createScene(container) {
   );
   camera.rotation.order = "YXZ";
 
-  // Renderer (mobile-friendly)
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
-                   window.innerWidth < 900;
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 900;
 
   renderer = new THREE.WebGLRenderer({
     antialias: !isMobile,
-    powerPreference: isMobile ? "default" : "high-performance",
-    alpha: false
+    powerPreference: isMobile ? "default" : "high-performance"
   });
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.6));
@@ -35,29 +32,26 @@ export function createScene(container) {
 
   container.appendChild(renderer.domElement);
 
-  // Soft fill light
-  const hemi = new THREE.HemisphereLight(0x8eb4ff, 0x0a0a12, 0.18);
-  scene.add(hemi);
+  // Soft light
+  scene.add(new THREE.HemisphereLight(0x8eb4ff, 0x0a0a12, 0.2));
 
-  // Resize handler
-  window.addEventListener("resize", onResize);
+  // Create solar system
+  const solar = createSolarSystem(scene);
+  bodies = solar.bodies;
 
-  return { scene, camera, renderer };
+  // Spawn far and high
+  setInitialSpawn();
+
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  return { scene, camera, renderer, bodies };
 }
 
-function onResize() {
-  if (!camera || !renderer) return;
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-export function getSceneObjects() {
-  return { scene, camera, renderer };
-}
-
-// Temporary spawn (will be improved when planets exist)
-export function setInitialSpawn() {
+function setInitialSpawn() {
   const angle = THREE.MathUtils.degToRad(CONFIG.SPAWN_HEIGHT_ANGLE);
   const randomYaw = Math.random() * Math.PI * 2;
   const dist = CONFIG.SPAWN_DISTANCE;
@@ -68,4 +62,8 @@ export function setInitialSpawn() {
 
   camera.position.set(x, y, z);
   camera.lookAt(0, 0, 0);
+}
+
+export function getSceneObjects() {
+  return { scene, camera, renderer, bodies };
 }
