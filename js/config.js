@@ -19,7 +19,7 @@ export const CONFIG = {
   ENERGY_DRAIN: 10,
   ENERGY_RECHARGE: 18,
 
-  // Spawn (far + high view)
-  SPAWN_DISTANCE: 18000,        // how far from the Sun
-  SPAWN_HEIGHT_ANGLE: 58,      // degrees above the plane
+  // Spawn (far + high view for mini version)
+  SPAWN_DISTANCE: 900,
+  SPAWN_HEIGHT_ANGLE: 50,
 };
