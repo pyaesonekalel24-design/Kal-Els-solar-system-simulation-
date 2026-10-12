@@ -9,29 +9,30 @@
 </head>
 <body>
   <div id="app">
-    <!-- Loading Screen -->
-    <div id="loading-screen" hidden>
-      <div class="loading-content">
-        <h1>Kal El's Solar System</h1>
-        <div class="progress-bar">
-          <div id="progress-fill"></div>
-        </div>
-        <p id="loading-text">Loading 0%</p>
-      </div>
-    </div>
 
-    <!-- Start Screen -->
-    <div id="start-screen" >
+    <!-- HOME SCREEN -->
+    <div id="start-screen">
       <div class="start-card">
         <h1>Kal El's Solar System Simulation</h1>
         <button id="start-button">START</button>
       </div>
     </div>
 
-    <!-- Main 3D canvas will be injected here -->
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen" hidden>
+      <div class="loading-content">
+        <h2>Loading Solar System</h2>
+        <div class="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
+        <p id="loading-text">0%</p>
+      </div>
+    </div>
+
+    <!-- 3D CANVAS -->
     <div id="canvas-container"></div>
 
-    <!-- Top Mode Bar -->
+    <!-- TOP BAR -->
     <div id="top-bar" hidden>
       <button class="mode-btn" data-mode="fly">Fly</button>
       <button class="mode-btn active" data-mode="explore">Explore</button>
@@ -39,10 +40,10 @@
       <button class="mode-btn" data-mode="setting">Setting</button>
     </div>
 
-    <!-- Sub panels will be added dynamically -->
+    <!-- SUB PANEL (for sub options) -->
     <div id="sub-panel" hidden></div>
 
-    <!-- Joystick + Up/Down (only visible in Fly / Moon Calendar) -->
+    <!-- MOVEMENT UI (Joystick + Up/Down) -->
     <div id="movement-ui" hidden>
       <div id="joystick-zone">
         <div id="joystick-base">
@@ -55,14 +56,20 @@
       </div>
     </div>
 
-    <!-- Energy bar (only in Superman) -->
-    <div id="energy-bar" hidden>
-      <div id="energy-fill"></div>
+    <!-- ENERGY BAR (Superman only) -->
+    <div id="energy-hud" hidden>
+      <div id="energy-bar">
+        <div id="energy-fill"></div>
+      </div>
       <span id="energy-text">100%</span>
     </div>
 
-    <!-- Floating labels container -->
+    <!-- FLOATING LABELS -->
     <div id="label-layer"></div>
+
+    <!-- MOON CALENDAR INFO -->
+    <div id="moon-info" hidden></div>
+
   </div>
 
   <script type="module" src="js/main.js"></script>
