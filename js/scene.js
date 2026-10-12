@@ -1,65 +1,71 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 import { CONFIG } from "./config.js";
-import { createMiniSolarSystem } from "./solarSystem.js";
 
 let scene, camera, renderer;
-let planets = [];
 
 export function createScene(container) {
+  // Scene
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x050711);
 
+  // Camera
   camera = new THREE.PerspectiveCamera(
     CONFIG.FOV,
     window.innerWidth / window.innerHeight,
     CONFIG.NEAR,
     CONFIG.FAR
   );
+  camera.rotation.order = "YXZ";
 
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  // Renderer (mobile-friendly)
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+                   window.innerWidth < 900;
 
   renderer = new THREE.WebGLRenderer({
     antialias: !isMobile,
-    powerPreference: isMobile ? "default" : "high-performance"
+    powerPreference: isMobile ? "default" : "high-performance",
+    alpha: false
   });
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.3 : 1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.6));
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+
   container.appendChild(renderer.domElement);
 
-  // Soft light
-  scene.add(new THREE.HemisphereLight(0x9bb8ff, 0x080810, 0.2));
+  // Soft fill light
+  const hemi = new THREE.HemisphereLight(0x8eb4ff, 0x0a0a12, 0.18);
+  scene.add(hemi);
 
-  // Create the mini solar system
-  const solar = createMiniSolarSystem(scene);
-  planets = solar.planets;
+  // Resize handler
+  window.addEventListener("resize", onResize);
 
-  // Far + high spawn
-  setSpawnPosition();
-
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  return { scene, camera, renderer, planets };
+  return { scene, camera, renderer };
 }
 
-function setSpawnPosition() {
-  const angle = THREE.MathUtils.degToRad(CONFIG.SPAWN_HEIGHT_ANGLE);
-  const randomAngle = Math.random() * Math.PI * 2;
-  const distance = CONFIG.SPAWN_DISTANCE;
+function onResize() {
+  if (!camera || !renderer) return;
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
 
-  const x = Math.cos(randomAngle) * distance * Math.cos(angle);
-  const y = distance * Math.sin(angle);
-  const z = Math.sin(randomAngle) * distance * Math.cos(angle);
+export function getSceneObjects() {
+  return { scene, camera, renderer };
+}
+
+// Temporary spawn (will be improved when planets exist)
+export function setInitialSpawn() {
+  const angle = THREE.MathUtils.degToRad(CONFIG.SPAWN_HEIGHT_ANGLE);
+  const randomYaw = Math.random() * Math.PI * 2;
+  const dist = CONFIG.SPAWN_DISTANCE;
+
+  const x = Math.cos(randomYaw) * dist * Math.cos(angle);
+  const y = dist * Math.sin(angle);
+  const z = Math.sin(randomYaw) * dist * Math.cos(angle);
 
   camera.position.set(x, y, z);
   camera.lookAt(0, 0, 0);
-}
-
-export function getScene() {
-  return { scene, camera, renderer, planets };
 }
