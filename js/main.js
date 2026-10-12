@@ -50,10 +50,20 @@ async function startGame() {
   const { scene, camera, renderer } = createScene(container);
   setInitialSpawn();
 
-  function animate() {
+   function animate() {
     requestAnimationFrame(animate);
+
+    // Move planets
+    bodies.forEach(b => {
+      if (b.isSun) return;
+      b.angle += b.speed;
+      b.mesh.position.x = Math.cos(b.angle) * b.distance;
+      b.mesh.position.z = Math.sin(b.angle) * b.distance;
+    });
+
     renderer.render(scene, camera);
   }
+  
   animate();
 
   setupModeButtons();
