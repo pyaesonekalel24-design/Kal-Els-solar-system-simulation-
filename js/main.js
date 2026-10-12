@@ -47,7 +47,7 @@ async function startGame() {
 
   // Create 3D scene
   const container = document.getElementById("canvas-container");
-  const { scene, camera, renderer } = createScene(container);
+  const { scene, camera, renderer, bodies } = createScene(container);
   setInitialSpawn();
 
    function animate() {
